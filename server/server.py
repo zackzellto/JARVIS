@@ -17,16 +17,18 @@ CORS(app)
 @app.route("/ask", methods=["GET"])
 def ask():
     configuration()
+
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt=request.args['q'],
-        temperature=0.9,
-        max_tokens=1000,
+        prompt=request.args.get('q'),
+        temperature=0.5,
+        max_tokens=440,
         top_p=1,
         frequency_penalty=0.0,
         presence_penalty=0.6,
         stop=[" Human:", " AI:"]
     )
+
     message = response.choices[0].text.strip()
 
     return {"answers": message}
