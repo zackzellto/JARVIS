@@ -1,14 +1,55 @@
-import { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState, FormEvent } from "react";
+
+type QuestionBubbleProps = {
+  question: string;
+};
+
+function QuestionBubble({ question }: QuestionBubbleProps) {
+  return (
+    <div className="right-8">
+      <span className="text-[#00FF00]">Me:</span>
+      <br />
+      <div className="bg-slate-400 text-sm mt-2 py-4 px-4 rounded-xl no-underline inline-block">
+        {question}
+      </div>
+    </div>
+  );
+}
+
+type AnswerBubbleProps = {
+  answer: string;
+};
+
+function AnswerBubble({ answer }: AnswerBubbleProps) {
+  return (
+    <div>
+      <span className="relative text-[#ff0000]">J.A.R.V.I.S:</span>
+      <br />
+      <div className="bg-slate-400 text-sm mt-2 py-4 px-4 rounded-xl no-underline inline-block">
+        {answer}
+      </div>
+    </div>
+  );
+}
+
+type QnA = {
+  question: string;
+  answer: string;
+};
 
 function App() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
-  const [prevAnswer, setPrevAnswer] = useState("");
+  const [prevAnswers, setPrevAnswers] = useState<QnA[]>([]);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setQuestion(e.target.question.value);
-    e.target.question.value = "";
+    const target = e.target as typeof e.target & {
+      question: { value: string };
+    };
+    setQuestion(target.question.value);
+    target.question.value = "";
   };
 
   useEffect(() => {
@@ -16,22 +57,31 @@ function App() {
       const response = await fetch(`http://127.0.0.1:5000/ask?q=${question}`);
       const data = await response.json();
       setAnswer(data.answers);
-      setPrevAnswer((previous) => previous + "\n" + answer);
+      setPrevAnswers((prev) => [...prev, { question, answer: data.answers }]);
     };
     question !== "" && getMessage();
     setQuestion("");
-  }, [answer, question]);
+  }, [question]);
 
   return (
     <>
       <div className="flex bg-slate-800 p-8 flex-col items-center justify-center min-h-screen py-2">
-        <div className="text-white text-[48px] font-extrabold text-lg underline ">
+        <div className="text-white text-5xl font-extrabold underline ">
           J.A.R.V.I.S
         </div>
-        <header className="flex flex-col items-center justify-center text-1xl mt-8">
-          <p className="text-white p-8 overflow-scroll bg-gray-900 h-[550px] w-80 rounded-xl">
-            <div className="text-sm  bg-slate-400">{prevAnswer}</div> <br />{" "}
-            <div className="bg-slate-400 no-underline">{answer}</div>
+        <header className="flex flex-col items-center justify-center text-1xl w-[90%] mt-8">
+          <p className="text-white p-8 overflow-scroll bg-gray-900 h-[550px]  w-3/4  rounded-sm">
+            {prevAnswers.map((prevAnswer, index) => (
+              <React.Fragment key={index}>
+                {index !== 0 && <br />}
+                <div className="mb-5 float-right">
+                  <QuestionBubble question={prevAnswer.question} />
+                </div>
+                <div className="mt-24">
+                  <AnswerBubble answer={prevAnswer.answer} />
+                </div>
+              </React.Fragment>
+            ))}
           </p>
           <form onSubmit={handleSubmit}>
             <input
