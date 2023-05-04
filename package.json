@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "concurrently": "^8.0.1",
+    "gh-pages": "^5.0.0"
+  }
+}
