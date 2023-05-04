@@ -8,3 +8,18 @@
   font-family: Poppins, sans-serif;
   box-sizing: border-box;
 }
+
+.text-transparent-with-image h1 {
+  position: relative;
+  display: inline-block;
+  background-image: url("./assets/jarvis.svg");
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px #fff;
+  font-size: 4rem;
+  font-weight: 900;
+  z-index: 1;
+  background-size: auto 100%;
+  background-position: center;
+}
