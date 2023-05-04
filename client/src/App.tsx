@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState, FormEvent } from "react";
+import React, { useState, useEffect, FormEvent, useRef } from "react";
 
 type QuestionBubbleProps = {
   question: string;
@@ -8,9 +7,9 @@ type QuestionBubbleProps = {
 function QuestionBubble({ question }: QuestionBubbleProps) {
   return (
     <div className="right-8">
-      <span className="text-[#00FF00]">Me:</span>
+      <span className="text-blue-600">Me:</span>
       <br />
-      <div className="bg-slate-400 text-sm mt-2 py-4 px-4 rounded-xl no-underline inline-block">
+      <div className="bg-gray-700 shadow-lg text-sm mt-2 py-4 px-4 rounded-xl no-underline inline-block">
         {question}
       </div>
     </div>
@@ -24,9 +23,9 @@ type AnswerBubbleProps = {
 function AnswerBubble({ answer }: AnswerBubbleProps) {
   return (
     <div>
-      <span className="relative text-[#ff0000]">J.A.R.V.I.S:</span>
+      <span className="relative text-rose-400">J.A.R.V.I.S:</span>
       <br />
-      <div className="bg-slate-400 text-sm mt-2 py-4 px-4 rounded-xl no-underline inline-block">
+      <div className="bg-gray-700 shadow-xl text-sm mt-2 py-4 px-4 rounded-xl no-underline inline-block">
         {answer}
       </div>
     </div>
@@ -42,6 +41,28 @@ function App() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [prevAnswers, setPrevAnswers] = useState<QnA[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    const container = containerRef.current;
+    if (container) {
+      const isScrolledToBottom =
+        container.scrollHeight - container.clientHeight <=
+        container.scrollTop + 1;
+
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: "smooth",
+      });
+
+      if (isScrolledToBottom) {
+        container.scrollTo({
+          top: container.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+    }
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,6 +79,7 @@ function App() {
       const data = await response.json();
       setAnswer(data.answers);
       setPrevAnswers((prev) => [...prev, { question, answer: data.answers }]);
+      scrollToBottom();
     };
     question !== "" && getMessage();
     setQuestion("");
@@ -69,8 +91,12 @@ function App() {
         <div className="text-white text-5xl font-extrabold underline ">
           J.A.R.V.I.S
         </div>
-        <header className="flex flex-col items-center justify-center text-1xl w-[100%] mt-8">
-          <p className="text-white p-8 overflow-scroll bg-gray-900  min-h-fit h-80 w-3/4  rounded-sm">
+        <header className="flex flex-col items-center justify-center text-1xl w-[85%] max-w-[1500px] mt-8">
+          <div
+            id="chat-window"
+            className="text-white rounded-xl shadow-xl p-8 scrollbar-thumb-rose-500 scrollbar-thin overflow-scroll bg-gray-900 min-h-fit h-[400px] w-3/4"
+            ref={containerRef}
+          >
             {prevAnswers.map((prevAnswer, index) => (
               <React.Fragment key={index}>
                 {index !== 0 && <br />}
@@ -82,10 +108,10 @@ function App() {
                 </div>
               </React.Fragment>
             ))}
-          </p>
+          </div>
           <form onSubmit={handleSubmit}>
             <input
-              className=" border rounded-md shadow-lg h-[40px] mt-16 mb-8 w-[320px] "
+              className="border p-4 shadow-xl rounded-md h-[50px] mt-16 mb-8 w-[350px]"
               name="question"
               placeholder="Ask a question"
               id="question"
@@ -93,7 +119,7 @@ function App() {
             />
             <br />
             <button
-              className="border h-[40px] shadow-lg rounded-md bg-slate-500 text-white w-[320px]"
+              className="border h-[40px] shadow-lg rounded-md bg-rose-500 text-white w-[350px]"
               type="submit"
             >
               Ask
