@@ -65,12 +65,12 @@ function App() {
 
   return (
     <>
-      <div className="flex bg-slate-800 p-8 flex-col items-center justify-center min-h-screen py-2">
+      <div className="flex bg-slate-800 flex-col items-center justify-center min-h-screen py-2">
         <div className="text-white text-5xl font-extrabold underline ">
           J.A.R.V.I.S
         </div>
-        <header className="flex flex-col items-center justify-center text-1xl w-[90%] mt-8">
-          <p className="text-white p-8 overflow-scroll bg-gray-900 h-[550px]  w-3/4  rounded-sm">
+        <header className="flex flex-col items-center justify-center text-1xl w-[100%] mt-8">
+          <p className="text-white p-8 overflow-scroll bg-gray-900  min-h-fit h-80 w-3/4  rounded-sm">
             {prevAnswers.map((prevAnswer, index) => (
               <React.Fragment key={index}>
                 {index !== 0 && <br />}
@@ -85,7 +85,7 @@ function App() {
           </p>
           <form onSubmit={handleSubmit}>
             <input
-              className=" border rounded-md shadow-lg h-[40px] mt-24 mb-8 w-[320px] "
+              className=" border rounded-md shadow-lg h-[40px] mt-16 mb-8 w-[320px] "
               name="question"
               placeholder="Ask a question"
               id="question"
