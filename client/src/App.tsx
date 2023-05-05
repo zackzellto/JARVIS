@@ -55,9 +55,7 @@ function App() {
 
   useEffect(() => {
     const getMessage = async () => {
-      const response = await fetch(
-        `https://master--melodious-crumble-c946a2.netlify.app/ask?q=${question}`
-      );
+      const response = await fetch(`/ask?q=${question}`);
       const data = await response.json();
       setAnswer(data.answers);
       setPrevAnswers((prev) => [...prev, { question, answer: data.answers }]);
