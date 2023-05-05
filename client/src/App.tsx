@@ -7,7 +7,7 @@ type QuestionBubbleProps = {
 function QuestionBubble({ question }: QuestionBubbleProps) {
   return (
     <div className="right-8">
-      <span className="text-blue-600">Me:</span>
+      <span className="text-blue-600 float-right">Me:</span>
       <br />
       <div className="bg-gray-700 shadow-lg text-sm mt-2 py-4 px-4 rounded-xl no-underline inline-block">
         {question}
@@ -72,8 +72,8 @@ function App() {
 
   return (
     <>
-      <div className="flex bg-slate-800 flex-col items-center justify-center min-h-screen">
-        <div className="text-transparent-with-image">
+      <div className="flex bg-slate-800 flex-col bottom-6 items-center justify-center min-h-screen">
+        <div className="text-transparent-with-image ">
           <h1 className="font-extrabold md:text-7xl">J.A.R.V.I.S</h1>
           <h5 className="font-bold md:text-1xl text-rose-500 shadow-sm text-center">
             Just A Rather Very Intelligent System
@@ -82,7 +82,7 @@ function App() {
         <header className="flex flex-col items-center justify-center text-1xl w-[100%] max-w-[1500px] mt-8">
           <div
             id="chat-window"
-            className="text-white rounded-xl shadow-xl p-8 scrollbar-thumb-rose-500 scrollbar-thin overflow-scroll bg-gray-900/90 min-h-fit h-[450px] w-3/4"
+            className="text-white rounded-xl shadow-xl p-8 scrollbar-thumb-rose-500 scrollbar-thin overflow-scroll bg-gray-900/90 min-h-fit h-[420px] w-3/4"
             ref={containerRef}
           >
             {prevAnswers.map((prevAnswer, index) => (
@@ -99,7 +99,7 @@ function App() {
           </div>
           <form onSubmit={handleSubmit}>
             <input
-              className="border p-4 shadow-xl rounded-md h-[50px] mt-8 mb-8 w-[350px]"
+              className="border p-4 shadow-xl rounded-md h-[50px] mt-8 mb-[16px] w-[350px]"
               name="question"
               placeholder="Ask a question"
               id="question"
@@ -107,13 +107,27 @@ function App() {
             />
             <br />
             <button
-              className="border text-2xl h-[40px] shadow-lg rounded-md bg-rose-500 text-white w-[350px]"
+              className=" flex items-center justify-center border text-2xl h-[40px] shadow-lg rounded-md bg-rose-500 text-white w-[350px]"
               type="submit"
             >
               Send
             </button>
           </form>
         </header>
+        <div className="h-[2px] w-[90%] mt-12 bg-white"></div>
+        <footer className="flex flex-col items-center justify-center text-1xl w-[100%] max-w-[1500px] mt-8">
+          <div className="text-white">
+            <h1 className="font-bold text-2xl text-center">
+              About J.A.R.V.I.S
+            </h1>
+            <p className="text-rose-500 p-8 text-center">
+              J.A.R.V.I.S is a chatbot that can answer your questions about
+              truth based topics!
+              <br />
+              Powered by the one and only GPT-3!
+            </p>
+          </div>
+        </footer>
       </div>
     </>
   );
