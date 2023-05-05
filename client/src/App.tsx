@@ -48,7 +48,8 @@ function App() {
     const target = e.target as typeof e.target & {
       question: { value: string };
     };
-    setQuestion(target.question.value);
+    const inputQuestion = target.question.value;
+    setQuestion(inputQuestion);
     target.question.value = "";
   };
 
@@ -106,10 +107,10 @@ function App() {
             />
             <br />
             <button
-              className="border h-[40px] shadow-lg rounded-md bg-rose-500 text-white w-[350px]"
+              className="border text-2xl h-[40px] shadow-lg rounded-md bg-rose-500 text-white w-[350px]"
               type="submit"
             >
-              Ask
+              Send
             </button>
           </form>
         </header>

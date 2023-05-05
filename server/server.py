@@ -18,18 +18,23 @@ CORS(app)
 def ask():
     configuration()
 
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=request.args.get('q'),
+    prompt_input = request.args.get('q')
+    conversation = [
+        {"role": "system", "content": "You are a helpful chatbot."},
+        {"role": "user", "content": prompt_input}
+    ]
+
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=conversation,
         temperature=0.5,
         max_tokens=440,
         top_p=1,
         frequency_penalty=0.0,
-        presence_penalty=0.6,
-        stop=[" Human:", " AI:"]
+        presence_penalty=0.6
     )
 
-    message = response.choices[0].text.strip()
+    message = response.choices[0].message['content'].strip()
 
     return {"answers": message}
 
