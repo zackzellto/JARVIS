@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
@@ -16,7 +16,7 @@ CORS(app)
 
 @app.route("/")
 def index():
-    return app.send_static_file("index.html")
+    return send_from_directory(os.path.join(os.path.abspath(os.path.dirname(__file__)), "client/dist"), "index.html")
 
 
 @app.route("/ask", methods=["GET"])
