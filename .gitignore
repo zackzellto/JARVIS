@@ -29,3 +29,6 @@ __pycache__/
 *.pyd
 .env
 
+
+# Local Netlify folder
+.netlify
