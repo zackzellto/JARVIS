@@ -55,9 +55,7 @@ function App() {
 
   useEffect(() => {
     const getMessage = async () => {
-      const response = await fetch(
-        `https://jarvis-gpt-backend.herokuapp.com/ask?q=${question}`
-      );
+      const response = await fetch(`http://localhost:5000/ask?q=${question}`);
       const data = await response.json();
       setAnswer(data.answers);
       setPrevAnswers((prev) => [...prev, { question, answer: data.answers }]);

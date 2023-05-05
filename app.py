@@ -42,3 +42,7 @@ def ask():
     message = response.choices[0].message['content'].strip()
 
     return {"answers": message}
+
+
+if __name__ == "__main__":
+    app.run()
