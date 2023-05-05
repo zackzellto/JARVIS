@@ -39,7 +39,7 @@ type QnA = {
 
 function App() {
   const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
+  const [, setAnswer] = useState("");
   const [prevAnswers, setPrevAnswers] = useState<QnA[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
